@@ -1,0 +1,55 @@
+> backend@1.0.0 test
+> jest
+
+PASS src/tests/tests-JDLM.test.ts
+  validateCandidateData()
+    HU-01 — Happy path: payload mínimo válido
+      ✓ AC-01: no debe lanzar error con firstName, lastName y email válidos (4 ms)
+    HU-02 — Happy path: payload completo con relaciones
+      ✓ AC-02: no debe lanzar error con todos los campos opcionales válidos (1 ms)
+    HU-03 — Rechazo por campo obligatorio ausente
+      ✓ AC-03a: debe lanzar "Invalid name" cuando falta firstName (23 ms)
+      ✓ AC-03b: debe lanzar "Invalid name" cuando falta lastName (2 ms)
+      ✓ AC-03c: debe lanzar "Invalid email" cuando falta email (1 ms)
+    HU-04 — Rechazo por formato inválido
+      ✓ AC-04a: debe lanzar "Invalid email" para email malformado (1 ms)
+      ✓ AC-04b: debe lanzar "Invalid phone" para teléfono que no cumple /^(6|7|9)\d{8}$/ (2 ms)
+      ✓ AC-04c: debe lanzar "Invalid name" cuando firstName contiene números (1 ms)
+      ✓ AC-04d: debe lanzar "Invalid name" cuando firstName tiene menos de 2 caracteres (1 ms)
+      ✓ AC-04e: debe lanzar "Invalid address" cuando address supera 100 caracteres (1 ms)
+      ✓ AC-04f: debe lanzar "Invalid date" cuando educations[].startDate no es YYYY-MM-DD (1 ms)
+      ✓ AC-04g: debe lanzar "Invalid end date" cuando educations[].endDate no es YYYY-MM-DD (1 ms)
+      ✓ AC-04h: debe lanzar "Invalid description" cuando workExperiences[].description supera 200 chars (1 ms)
+      ✓ AC-04i: debe lanzar "Invalid CV data" cuando cv.filePath está vacío (1 ms)
+    HU-06 — Modo actualización implícita (payload con id)
+      ✓ AC-06: debe omitir todas las validaciones cuando el payload incluye id
+    Campos opcionales — casos límite
+      ✓ CL-01: educations como array vacío [] no debe lanzar error (1 ms)
+      ✓ CL-02: workExperiences como array vacío [] no debe lanzar error
+      ✓ CL-03: cv como objeto vacío {} no debe lanzar error (se ignora) (1 ms)
+      ✓ CL-04: phone ausente (undefined) no debe lanzar error
+      ✓ CL-05: address ausente (undefined) no debe lanzar error
+      ✓ CL-06: debe lanzar "Invalid CV data" cuando cv tiene filePath pero falta fileType (1 ms)
+      ✓ CL-07: debe lanzar "Invalid CV data" cuando cv tiene fileType pero falta filePath (1 ms)
+  POST /candidates (integración HTTP)
+    HU-01 — Creación exitosa con datos mínimos
+      ✓ AC-01: debe retornar 201 y el objeto candidato con id asignado (68 ms)
+    HU-02 — Creación exitosa con payload completo
+      ✓ AC-02: debe retornar 201 con candidato, educaciones, experiencias y CV persistidos (27 ms)
+    HU-03 — Campo obligatorio ausente
+      ✓ AC-03a: debe retornar 400 con { message: "Error: Invalid name" } cuando falta firstName (14 ms)
+      ✓ AC-03b: debe retornar 400 con { message: "Error: Invalid name" } cuando falta lastName (5 ms)
+      ✓ AC-03c: debe retornar 400 con { message: "Error: Invalid email" } cuando falta email (5 ms)
+    HU-04 — Formato inválido
+      ✓ AC-04a: debe retornar 400 con { message: "Error: Invalid email" } para email malformado (5 ms)
+      ✓ AC-04b: debe retornar 400 con { message: "Error: Invalid phone" } para teléfono incorrecto (5 ms)
+    HU-05 — Email duplicado
+      ✓ AC-05: debe retornar 400 con { message: "The email already exists in the database" } (5 ms)
+    HU-06 — Modo actualización implícita
+      ✓ AC-06: debe omitir validación y delegar en save() cuando el payload contiene id (8 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       31 passed, 31 total
+Snapshots:   0 total
+Time:        3.879 s, estimated 4 s
+Ran all test suites.
